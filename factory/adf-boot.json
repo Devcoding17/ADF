@@ -1,0 +1,9 @@
+{
+	"name": "adf-boot",
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c8dfd4cf-a69c-400e-bfac-18fcdf3f0ae0",
+		"tenantId": "edda7901-92aa-4b1e-aa2c-3c3a782e9bcb"
+	}
+}
