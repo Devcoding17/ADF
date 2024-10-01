@@ -19,7 +19,11 @@
 					"name": "source2"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "split1"
@@ -32,6 +36,9 @@
 				},
 				{
 					"name": "alterRow1"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -90,7 +97,48 @@
 				"     asc(ERROR_FUNCTION(''), true),",
 				"     broadcast: 'auto')~> lookup1",
 				"lookup1 alterRow(insertIf(isNull(source2@booking_id)),",
-				"     updateIf(not(isNull(source2@booking_id)))) ~> alterRow1"
+				"     updateIf(not(isNull(source2@booking_id)))) ~> alterRow1",
+				"alterRow1 select(mapColumn(",
+				"          booking_id,",
+				"          property_id,",
+				"          customer_id = split1@AcceptedRecords@customer_id,",
+				"          owner_id,",
+				"          check_in_date,",
+				"          check_out_date,",
+				"          booking_date,",
+				"          amount,",
+				"          currency,",
+				"          property_location,",
+				"          timestamp,",
+				"          {stay-duration},",
+				"          booking_year,",
+				"          booking_month,",
+				"          full_address,",
+				"          city = derivedColumn1@city,",
+				"          customer_id = source2@customer_id,",
+				"          first_name,",
+				"          last_name,",
+				"          email,",
+				"          phone_number,",
+				"          address,",
+				"          city = source2@city,",
+				"          state,",
+				"          country,",
+				"          zip_code,",
+				"          signup_date,",
+				"          last_login,",
+				"          total_bookings,",
+				"          total_spent,",
+				"          preferred_language,",
+				"          referral_code,",
+				"          account_status",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
