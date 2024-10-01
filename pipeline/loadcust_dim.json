@@ -196,7 +196,20 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"enableLogging": true
+								"dataset": {
+									"referenceName": "cust_rawdata",
+									"type": "DatasetReference"
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"wildcardFileName": {
+										"value": "@item().name\n",
+										"type": "Expression"
+									},
+									"enablePartitionDiscovery": false
+								}
 							}
 						}
 					]
